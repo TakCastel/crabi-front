@@ -2,14 +2,8 @@
   <v-layout>
     <v-flex xs12>
       <div>
-        Landing page
+        Homepage
       </div>
     </v-flex>
   </v-layout>
 </template>
-
-<script>
-export default {
-
-}
-</script>
