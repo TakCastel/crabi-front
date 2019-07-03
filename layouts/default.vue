@@ -6,6 +6,7 @@
     >
       <v-toolbar-title v-text="title" />
       <v-spacer />
+      <g-auth-button />
     </v-toolbar>
     <v-content>
       <v-container fluid>
@@ -23,7 +24,13 @@
 </template>
 
 <script>
+import GAuthButton from '@/components/GAuthButton'
+
 export default {
+  components: {
+    GAuthButton
+  },
+
   data: () => ({
     title: 'Roleplay',
     dark: true
