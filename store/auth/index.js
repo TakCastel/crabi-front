@@ -5,7 +5,7 @@ import {
 
 export const state = () => ({
   isAuthenticated: false,
-  data: {
+  session: {
     user: 'Anonymous',
     jwt: undefined
   }
@@ -63,7 +63,7 @@ export const mutations = {
     console.log('mutation: ', response.data)
 
     state.isAuthenticated = true
-    state.data = response.data
+    state.session = response.data
 
     this.$router.push('/home')
   },
