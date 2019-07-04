@@ -5,11 +5,12 @@
       app
     >
       <nuxt-link to="/">
-        <img
+        <v-img
           src="/icon.png"
-          width="42px"
+          lazy-src="/icon.png"
           alt="Logo de l'application"
-        >
+          width="42"
+        />
       </nuxt-link>
       <v-toolbar-title v-text="title" />
       <v-spacer />
