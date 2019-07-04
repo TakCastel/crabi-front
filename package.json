@@ -14,11 +14,13 @@
     "generate": "nuxt generate"
   },
   "dependencies": {
-    "cross-env": "^5.2.0",
-    "express": "^4.16.4",
-    "@nuxtjs/vuetify": "0.5.5",
     "@nuxtjs/axios": "^5.3.6",
     "@nuxtjs/pwa": "^2.6.0",
+    "@nuxtjs/vuetify": "0.5.5",
+    "cookieparser": "^0.1.0",
+    "cross-env": "^5.2.0",
+    "express": "^4.16.4",
+    "js-cookie": "^2.2.0",
     "nuxt": "^2.0.0"
   },
   "devDependencies": {
