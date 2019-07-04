@@ -1,14 +1,15 @@
 import {
   CONNECT_USER,
-  DISCONNECT_USER
+  AUTHENTICATE_USER,
+  DISCONNECT_USER,
+  RESTORE_SESSION
 } from './mutation-types'
 
+const Cookie = process.client ? require('js-cookie') : undefined
+
 export const state = () => ({
-  isAuthenticated: !!localStorage.getItem('store_session'),
-  session: JSON.parse(localStorage.getItem('store_session')) || {
-    user: 'Anonymous',
-    jwt: undefined
-  }
+  isAuthenticated: false,
+  session: {}
 })
 
 export const actions = {
@@ -27,6 +28,7 @@ export const actions = {
       })
       .then((response) => {
         commit('CONNECT_USER', response)
+        commit('AUTHENTICATE_USER')
       })
       .catch((error) => {
         console.error('An error occurred:', error)
@@ -46,6 +48,7 @@ export const actions = {
       })
       .then((response) => {
         commit('CONNECT_USER', response)
+        commit('AUTHENTICATE_USER')
       })
       .catch((error) => {
         console.error('An error occurred:', error)
@@ -55,19 +58,25 @@ export const actions = {
 
 export const mutations = {
   [CONNECT_USER](state, response) {
-    state.isAuthenticated = true
     state.session = response.data
     this.$axios.setToken(response.data.jwt, 'Bearer')
     this.$router.push('/home')
 
     // Save the data in localStroage for future navigations
-    localStorage.setItem('store_session', JSON.stringify(response.data))
+    // localStorage.setItem('store_session', JSON.stringify(response.data))
+    Cookie.set('auth', response.data)
+  },
+
+  [AUTHENTICATE_USER](state) {
+    state.isAuthenticated = true
   },
 
   [DISCONNECT_USER](state) {
-    state.isAuthenticated = false
-
     // Clear all localStorage
     localStorage.clear()
+  },
+
+  [RESTORE_SESSION](state, session) {
+    state.session = session
   }
 }
