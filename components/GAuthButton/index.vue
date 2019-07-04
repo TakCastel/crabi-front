@@ -1,5 +1,5 @@
 <template>
-  <v-btn v-if="isVisible" icon @click="handleLogin">
+  <v-btn v-if="!isAuthenticated" icon @click="handleLogin">
     <v-icon>
       account_circle
     </v-icon>
@@ -22,16 +22,7 @@ export default {
   computed: {
     ...mapState({
       isAuthenticated: state => state.auth.isAuthenticated
-    }),
-
-    isVisible: function () {
-      if (
-        this.isAuthenticated ||
-        this.$nuxt.$route.name === 'login'
-      ) {
-        return false
-      } else return true
-    }
+    })
   },
 
   methods: {
