@@ -53,12 +53,19 @@ export const actions = {
       .catch((error) => {
         console.error('An error occurred:', error)
       })
+  },
+
+  disconnectUser({ commit }) {
+    commit('DISCONNECT_USER')
+    Cookie.remove('auth')
+    this.$router.push('/')
   }
 }
 
 export const mutations = {
   [CONNECT_USER](state, response) {
     state.session = response.data
+
     this.$axios.setToken(response.data.jwt, 'Bearer')
     this.$router.push('/home')
 
@@ -72,8 +79,11 @@ export const mutations = {
   },
 
   [DISCONNECT_USER](state) {
-    // Clear all localStorage
-    localStorage.clear()
+    state.session.user = 'Anonymous'
+    state.session.jwt = undefined
+    state.isAuthenticated = false
+
+    this.$axios.setHeader('Authorization', null)
   },
 
   [RESTORE_SESSION](state, session) {

@@ -62,7 +62,7 @@ module.exports = {
     theme: {
       primary: colors.yellow.darken2,
       accent: colors.grey.darken3,
-      secondary: colors.amber.darken3,
+      secondary: colors.brown.base,
       info: colors.teal.lighten1,
       warning: colors.amber.base,
       error: colors.deepOrange.accent4,
