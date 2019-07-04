@@ -1,7 +1,7 @@
 {
-  "name": "rp-front",
+  "name": "Application",
   "version": "1.0.0",
-  "description": "My epic Nuxt.js project",
+  "description": "This is an example of application using Strapi Headless CMS",
   "author": "TakCastel",
   "private": true,
   "scripts": {

@@ -4,6 +4,13 @@
       fixed
       app
     >
+      <nuxt-link to="/">
+        <img
+          src="/icon.png"
+          width="42px"
+          alt="Logo de l'application"
+        >
+      </nuxt-link>
       <v-toolbar-title v-text="title" />
       <v-spacer />
       <g-auth-button />
@@ -32,7 +39,7 @@ export default {
   },
 
   data: () => ({
-    title: 'Roleplay',
+    title: 'Application',
     dark: true
   })
 }
