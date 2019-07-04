@@ -5,6 +5,17 @@
         {{ isRegistering ? 'Inscription' : 'Connexion' }}
       </span>
     </v-layout>
+    <v-layout>
+      <v-flex xs12 class="text-xs-center">
+        <v-img
+          class="autocentered"
+          src="/icon.png"
+          lazy-src="/icon.png"
+          alt="Logo de l'application"
+          width="100"
+        />
+      </v-flex>
+    </v-layout>
     <v-form
       ref="form"
       slot="default"
@@ -15,7 +26,8 @@
         v-model="identifier"
         :rules="identifierRules"
         :label="isRegistering ? 'Utilisateur' : 'Identifiant'"
-        solo-inverted
+        placeholder="John Doe"
+        outline
         required
       />
       <v-text-field
@@ -23,7 +35,8 @@
         v-model="email"
         :rules="emailRules"
         label="E-mail"
-        solo-inverted
+        placeholder="johndoe@email.com"
+        outline
         required
       />
       <v-text-field
@@ -33,7 +46,8 @@
         :type="show ? 'text' : 'password'"
         name="input-10-1"
         label="Mot de passe"
-        solo-inverted
+        placeholder="Votre mot de passe sécurisé"
+        outline
         @click:append="show = !show"
       />
     </v-form>
@@ -42,6 +56,7 @@
         <v-btn
           :disabled="!valid"
           color="primary"
+          round
           large
           block
           @click="handleSubmit"
@@ -51,7 +66,9 @@
       </v-flex>
       <v-flex>
         <v-btn
-          outline
+          class="transparent"
+          flat
+          round
           large
           block
           @click="handleSwitch"
@@ -99,6 +116,11 @@ export default {
   },
 
   methods: {
+    ...mapActions({
+      register: 'auth/registerUser',
+      login: 'auth/authenticateUser'
+    }),
+
     /**
      * Send data to the store actions and
      * login or register according to form layout
@@ -107,7 +129,6 @@ export default {
       console.log(this.identifier, this.password)
       if (this.$refs.form.validate()) {
         if (this.isRegistering) {
-          console.log('hello ?')
           this.register({
             username: this.identifier,
             email: this.email,
@@ -128,12 +149,14 @@ export default {
      */
     handleSwitch() {
       this.isRegistering = !this.isRegistering
-    },
-
-    ...mapActions({
-      register: 'auth/registerUser',
-      login: 'auth/authenticateUser'
-    })
+      this.$refs.form.resetValidation()
+    }
   }
 }
 </script>
+
+<style>
+.autocentered {
+  margin: auto
+}
+</style>

@@ -6,6 +6,10 @@
 import GAuthForm from '@/components/GAuthForm'
 
 export default {
+  middleware: [
+    'connected'
+  ],
+
   components: {
     GAuthForm
   }

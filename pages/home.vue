@@ -7,3 +7,11 @@
     </v-flex>
   </v-layout>
 </template>
+
+<script>
+export default {
+  middleware: [
+    'protected'
+  ]
+}
+</script>
