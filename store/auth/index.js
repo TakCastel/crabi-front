@@ -4,15 +4,14 @@ import {
 } from './mutation-types'
 
 export const state = () => ({
-  isAuthenticated: false,
-  session: {
+  isAuthenticated: !!localStorage.getItem('store_session'),
+  session: JSON.parse(localStorage.getItem('store_session')) || {
     user: 'Anonymous',
     jwt: undefined
   }
 })
 
 export const actions = {
-
   /**
    * Providing an user name, email and password,
    * the user should be able to create a new account
@@ -20,7 +19,6 @@ export const actions = {
    * @param {Object} payload
    */
   registerUser({ commit }, payload) {
-    console.log('payload is : ', payload)
     this.$axios
       .post('/auth/local/register', {
         username: payload.username,
@@ -47,8 +45,6 @@ export const actions = {
         password: payload.password
       })
       .then((response) => {
-        console.log(response)
-
         commit('CONNECT_USER', response)
       })
       .catch((error) => {
@@ -59,16 +55,19 @@ export const actions = {
 
 export const mutations = {
   [CONNECT_USER](state, response) {
-    // this.$axios.setToken(response.jwt, 'Bearer')
-    console.log('mutation: ', response.data)
-
     state.isAuthenticated = true
     state.session = response.data
-
+    this.$axios.setToken(response.data.jwt, 'Bearer')
     this.$router.push('/home')
+
+    // Save the data in localStroage for future navigations
+    localStorage.setItem('store_session', JSON.stringify(response.data))
   },
 
   [DISCONNECT_USER](state) {
     state.isAuthenticated = false
+
+    // Clear all localStorage
+    localStorage.clear()
   }
 }
