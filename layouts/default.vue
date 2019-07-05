@@ -71,15 +71,11 @@
       </v-menu>
     </v-toolbar>
     <v-content>
-      <v-container fluid>
+      <v-container>
         <nuxt />
       </v-container>
     </v-content>
-    <v-footer
-      fixed
-      class="px-2"
-      app
-    >
+    <v-footer class="px-2">
       <span>TakCastel &copy; 2019</span>
     </v-footer>
   </v-app>
