@@ -60,7 +60,7 @@ module.exports = {
   */
   vuetify: {
     theme: {
-      primary: colors.yellow.darken2,
+      primary: colors.red.accent2,
       accent: colors.grey.base,
       secondary: colors.brown.base,
       info: colors.teal.lighten1,

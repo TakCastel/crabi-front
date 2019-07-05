@@ -93,7 +93,7 @@ export default {
   data: () => ({
     isRegistering: false,
     valid: true,
-    identifier: '',
+    identifier: 'test',
     identifierRules: [
       v => !!v || 'Un identifiant est demandé'
     ],
@@ -102,7 +102,7 @@ export default {
       v => !!v || 'Un email est demandé',
       v => /.+@.+/.test(v) || 'Le format mail est requis'
     ],
-    password: '',
+    password: 'demotest',
     passwordRules: [
       v => !!v || 'Renseignez votre mot de passe'
     ],
@@ -126,7 +126,6 @@ export default {
      * login or register according to form layout
      */
     handleSubmit() {
-      console.log(this.identifier, this.password)
       if (this.$refs.form.validate()) {
         if (this.isRegistering) {
           this.register({
