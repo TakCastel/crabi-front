@@ -1,6 +1,6 @@
-# rp-front
+# Nuxt PWA application demo
 
-> My epic Nuxt.js project
+> This is a demo of a progressive web application consuming a Strapi API
 
 ## Build Setup
 
@@ -19,4 +19,15 @@ $ npm run start
 $ npm run generate
 ```
 
-For detailed explanation on how things work, checkout [Nuxt.js docs](https://nuxtjs.org).
+## List of currently supported features
+
+### Authentication
+
+- Create account
+- Login
+- Logout
+
+### Content
+
+- Access public content
+- Access private content
