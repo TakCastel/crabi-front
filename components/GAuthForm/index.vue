@@ -6,7 +6,7 @@
       </span>
     </v-layout>
     <v-layout>
-      <v-flex xs12 class="text-xs-center">
+      <v-flex xs12 class="text-xs-center mb-2">
         <v-img
           class="autocentered"
           src="/icon.png"
