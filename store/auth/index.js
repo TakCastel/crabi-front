@@ -29,7 +29,7 @@ export const actions = {
       })
       .then((response) => {
         commit('CONNECT_USER', response)
-        commit('AUTHENTICATE_USER')
+        commit('AUTHENTICATE_USER', true)
       })
       .catch((error) => {
         console.error('An error occurred:', error)
@@ -49,7 +49,7 @@ export const actions = {
       })
       .then((response) => {
         commit('CONNECT_USER', response)
-        commit('AUTHENTICATE_USER')
+        commit('AUTHENTICATE_USER', true)
       })
       .catch((error) => {
         console.error('An error occurred:', error)
@@ -77,6 +77,7 @@ export const actions = {
    */
   disconnectUser({ commit }) {
     commit('DISCONNECT_USER')
+    commit('AUTHENTICATE_USER', false)
     Cookie.remove('auth')
     this.$router.push('/')
   }
@@ -116,7 +117,6 @@ export const mutations = {
   [DISCONNECT_USER](state) {
     state.session.user = 'Anonymous'
     state.session.jwt = undefined
-    state.isAuthenticated = false
 
     this.$axios.setHeader('Authorization', null)
   },

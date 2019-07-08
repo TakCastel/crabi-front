@@ -14,12 +14,12 @@ export const actions = {
       const parsed = cookieparser.parse(req.headers.cookie)
       try {
         session = JSON.parse(parsed.auth)
-        commit('auth/AUTHENTICATE_USER')
       } catch (err) {
         // No valid cookie found
       }
     }
     commit('auth/RESTORE_SESSION', session)
+    commit('auth/AUTHENTICATE_USER', true)
   }
 }
 
