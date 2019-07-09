@@ -8,11 +8,10 @@
         absolute
         bottom
         right
-        round
+        icon
         @click="handleCreate"
       >
-        Nouveau
-        <v-icon right>
+        <v-icon>
           add
         </v-icon>
       </v-btn>

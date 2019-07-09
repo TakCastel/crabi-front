@@ -1,6 +1,7 @@
 import {
-  CONNECT_USER,
   AUTHENTICATE_USER,
+  CONNECT_USER,
+  SET_USER,
   DISCONNECT_USER,
   RESTORE_SESSION
 } from './mutation-types'
@@ -28,7 +29,7 @@ export const actions = {
       })
       .then((response) => {
         commit('CONNECT_USER', response)
-        commit('AUTHENTICATE_USER')
+        commit('AUTHENTICATE_USER', true)
       })
       .catch((error) => {
         console.error('An error occurred:', error)
@@ -48,15 +49,35 @@ export const actions = {
       })
       .then((response) => {
         commit('CONNECT_USER', response)
-        commit('AUTHENTICATE_USER')
+        commit('AUTHENTICATE_USER', true)
       })
       .catch((error) => {
         console.error('An error occurred:', error)
       })
   },
 
+  /**
+   * Request the user metadatas
+   * @param {*} param0
+   */
+  // getUserInfos({ commit }) {
+  //   this.$axios
+  //     .get('/users/me')
+  //     .then((response) => {
+  //       commit('SET_USER', response)
+  //     })
+  //     .catch((error) => {
+  //       console.error('An error occured', error)
+  //     })
+  // },
+
+  /**
+   * Log the user out of the application
+   * @param {*} param0
+   */
   disconnectUser({ commit }) {
     commit('DISCONNECT_USER')
+    commit('AUTHENTICATE_USER', false)
     Cookie.remove('auth')
     this.$router.push('/')
   }
@@ -74,14 +95,28 @@ export const mutations = {
     Cookie.set('auth', response.data)
   },
 
-  [AUTHENTICATE_USER](state) {
+  [AUTHENTICATE_USER](state, response) {
     state.isAuthenticated = true
+
+    this.$router.push('/home')
+    this.$axios.setToken(response.data.jwt, 'Bearer')
+    this.$router.push('/threads')
+
+    // Save the data in a Cookie 🍪 for future navigations
+    Cookie.set('auth', response.data)
+  },
+
+  [AUTHENTICATE_USER](state, status) {
+    state.isAuthenticated = status
+  },
+
+  [SET_USER](state, response) {
+    state.session.user = response.data
   },
 
   [DISCONNECT_USER](state) {
     state.session.user = 'Anonymous'
     state.session.jwt = undefined
-    state.isAuthenticated = false
 
     this.$axios.setHeader('Authorization', null)
   },

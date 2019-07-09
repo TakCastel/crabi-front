@@ -1,9 +1,37 @@
 <template>
   <v-app :dark="dark">
+    <v-navigation-drawer
+      v-model="drawer"
+      fixed
+      clipped
+      app
+      class="grey darken-4"
+    >
+      <v-list subheader class="pt-0">
+        <v-subheader dense>
+          Navigation
+        </v-subheader>
+        <v-list-tile
+          v-for="nav in navs"
+          :key="nav.title"
+          @click="handleNavigation(nav.route)"
+        >
+          <v-list-tile-action>
+            <v-icon>{{ nav.icon }}</v-icon>
+          </v-list-tile-action>
+
+          <v-list-tile-content>
+            <v-list-tile-title>{{ nav.title }}</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+      </v-list>
+    </v-navigation-drawer>
     <v-toolbar
       fixed
+      clipped-left
       app
     >
+      <v-toolbar-side-icon @click.stop="drawer = !drawer" />
       <nuxt-link to="/">
         <v-img
           src="/icon.png"
@@ -14,10 +42,9 @@
       </nuxt-link>
       <v-toolbar-title v-text="title" />
       <v-spacer />
-
       <v-menu
         v-model="menu"
-        min-width="300"
+        min-width="260"
         close-on-content-click
         left
       >
@@ -75,14 +102,17 @@
         <nuxt />
       </v-container>
     </v-content>
-    <v-footer class="px-2">
+    <v-footer fixed app class="px-2">
       <span>TakCastel &copy; 2019</span>
+      <v-spacer />
+      <span> v{{ applicationVersion }} </span>
     </v-footer>
   </v-app>
 </template>
 
 <script>
 import { mapState, mapActions } from 'vuex'
+import pkg from '../package.json'
 
 export default {
   data: () => ({
@@ -91,10 +121,20 @@ export default {
     menu: false,
     items: [
       {
+        icon: 'settings',
+        title: 'Paramètres',
+        action: 'settings'
+      },
+      {
         icon: 'logout',
         title: 'Se déconnecter',
         action: 'logout'
       }
+    ],
+    drawer: null,
+    navs: [
+      { title: 'Accueil', icon: 'home', route: '/' },
+      { title: 'Discussions', icon: 'question_answer', route: '/threads' }
     ]
   }),
 
@@ -102,8 +142,16 @@ export default {
     ...mapState({
       isAuthenticated: state => state.auth.isAuthenticated,
       user: state => state.auth.session.user
-    })
+    }),
+
+    applicationVersion: function () {
+      return pkg.version
+    }
   },
+
+  // mounted() {
+  //   this.$store.dispatch('auth/getUserInfos')
+  // },
 
   methods: {
     ...mapActions({
@@ -124,6 +172,10 @@ export default {
       this.menu = !this.menu
     },
 
+    handleNavigation(route) {
+      this.$router.push(route)
+    },
+
     /**
      * When user click on menu item, redirect to any route
      */
@@ -131,6 +183,9 @@ export default {
       switch (action) {
         case 'logout':
           this.logout()
+          break
+        case 'settings':
+          this.$router.push('/settings')
       }
     }
   }
