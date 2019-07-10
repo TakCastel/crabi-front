@@ -1,7 +1,7 @@
 {
-  "name": "Application",
+  "name": "Crabi",
   "version": "1.0.0",
-  "description": "This is an example of application using Strapi Headless CMS",
+  "description": "This project is using Strapi headless CMS",
   "author": "TakCastel",
   "private": true,
   "scripts": {
@@ -11,7 +11,9 @@
     "dev": "cross-env NODE_ENV=development nodemon server/index.js --watch server",
     "build": "nuxt build",
     "start": "cross-env NODE_ENV=production node server/index.js",
-    "generate": "nuxt generate"
+    "generate": "nuxt generate",
+    "build:gh-pages": "DEPLOY_ENV=GH_PAGES nuxt build",
+    "generate:gh-pages": "DEPLOY_ENV=GH_PAGES nuxt generate"
   },
   "dependencies": {
     "@nuxtjs/axios": "^5.3.6",

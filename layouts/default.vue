@@ -102,7 +102,7 @@
         <nuxt />
       </v-container>
     </v-content>
-    <v-footer fixed app class="px-2">
+    <v-footer class="px-2">
       <span>TakCastel &copy; 2019</span>
       <v-spacer />
       <span> v{{ applicationVersion }} </span>
@@ -116,7 +116,7 @@ import pkg from '../package.json'
 
 export default {
   data: () => ({
-    title: 'Application',
+    title: 'Crabi',
     dark: true,
     menu: false,
     items: [

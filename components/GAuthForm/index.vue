@@ -93,7 +93,7 @@ export default {
   data: () => ({
     isRegistering: false,
     valid: true,
-    identifier: 'test',
+    identifier: '',
     identifierRules: [
       v => !!v || 'Un identifiant est demandé'
     ],
@@ -102,7 +102,7 @@ export default {
       v => !!v || 'Un email est demandé',
       v => /.+@.+/.test(v) || 'Le format mail est requis'
     ],
-    password: 'demotest',
+    password: '',
     passwordRules: [
       v => !!v || 'Renseignez votre mot de passe'
     ],
@@ -149,6 +149,7 @@ export default {
     handleSwitch() {
       this.isRegistering = !this.isRegistering
       this.$refs.form.resetValidation()
+      this.show = false
     }
   }
 }

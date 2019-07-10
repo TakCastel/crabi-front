@@ -22,21 +22,25 @@ module.exports = {
       }
     ]
   },
+
   /*
   ** Customize the progress-bar color
   */
   loading: { color: '#fff' },
+
   /*
   ** Global CSS
   */
   css: [
   ],
+
   /*
   ** Plugins to load before mounting the App
   */
   plugins: [
     '@/plugins/axios'
   ],
+
   /*
   ** Nuxt.js modules
   */
@@ -47,13 +51,15 @@ module.exports = {
     '@nuxtjs/pwa',
     '@nuxtjs/eslint-module'
   ],
+
   /*
   ** Axios module configuration
   ** See https://axios.nuxtjs.org/options
   */
   axios: {
-    baseURL: 'http://localhost:1337/'
+    baseURL: 'http://51.75.141.70:1337/'
   },
+
   /*
   ** vuetify module configuration
   ** https://github.com/nuxt-community/vuetify-module
@@ -69,6 +75,7 @@ module.exports = {
       success: colors.green.accent3
     }
   },
+
   /*
   ** Build configuration
   */
