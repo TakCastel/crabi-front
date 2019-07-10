@@ -102,7 +102,7 @@
         <nuxt />
       </v-container>
     </v-content>
-    <v-footer class="px-2">
+    <v-footer app class="px-2">
       <span>TakCastel &copy; 2019</span>
       <v-spacer />
       <span> v{{ applicationVersion }} </span>
