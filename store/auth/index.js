@@ -17,10 +17,10 @@ export const actions = {
   /**
    * Providing an user name, email and password,
    * the user should be able to create a new account
-   * then be automatically access app as logged in
+   * then automatically access app as logged in
    * @param {Object} payload
    */
-  registerUser({ commit }, payload) {
+  registerUser({ dispatch }, payload) {
     this.$axios
       .post('/auth/local/register', {
         username: payload.username,
@@ -28,8 +28,10 @@ export const actions = {
         password: payload.password
       })
       .then((response) => {
-        commit('CONNECT_USER', response)
-        commit('AUTHENTICATE_USER', true)
+        dispatch('manageAuthentication', {
+          response,
+          routeName: '/threads'
+        })
       })
       .catch((error) => {
         console.error('An error occurred:', error)
@@ -41,15 +43,17 @@ export const actions = {
    * the user should be logged inside the app
    * @param {Object} payload
    */
-  authenticateUser({ commit }, payload) {
+  authenticateUser({ dispatch }, payload) {
     this.$axios
       .post('/auth/local', {
         identifier: payload.identifier,
         password: payload.password
       })
       .then((response) => {
-        commit('CONNECT_USER', response)
-        commit('AUTHENTICATE_USER', true)
+        dispatch('manageAuthentication', {
+          response,
+          routeName: '/threads'
+        })
       })
       .catch((error) => {
         console.error('An error occurred:', error)
@@ -57,19 +61,20 @@ export const actions = {
   },
 
   /**
-   * Request the user metadatas
-   * @param {*} param0
+   * Once the payload is a success
+   * handle the logical user auth
+   * @param {response} Object, user data received
+   * @param {routeName} String, redierction path
    */
-  // getUserInfos({ commit }) {
-  //   this.$axios
-  //     .get('/users/me')
-  //     .then((response) => {
-  //       commit('SET_USER', response)
-  //     })
-  //     .catch((error) => {
-  //       console.error('An error occured', error)
-  //     })
-  // },
+  manageAuthentication({ commit }, { response, routeName }) {
+    commit('CONNECT_USER', response)
+    commit('AUTHENTICATE_USER', true)
+    this.$router.push(routeName)
+    this.$axios.setToken(response.data.jwt, 'Bearer')
+
+    // Save the data in a Cookie 🍪 for future navigations
+    Cookie.set('auth', response.data)
+  },
 
   /**
    * Log the user out of the application
@@ -78,32 +83,15 @@ export const actions = {
   disconnectUser({ commit }) {
     commit('DISCONNECT_USER')
     commit('AUTHENTICATE_USER', false)
-    Cookie.remove('auth')
+    this.$axios.setHeader('Authorization', null)
     this.$router.push('/')
+    Cookie.remove('auth')
   }
 }
 
 export const mutations = {
   [CONNECT_USER](state, response) {
     state.session = response.data
-
-    this.$axios.setToken(response.data.jwt, 'Bearer')
-    this.$router.push('/home')
-
-    // Save the data in localStroage for future navigations
-    // localStorage.setItem('store_session', JSON.stringify(response.data))
-    Cookie.set('auth', response.data)
-  },
-
-  [AUTHENTICATE_USER](state, response) {
-    state.isAuthenticated = true
-
-    this.$router.push('/home')
-    this.$axios.setToken(response.data.jwt, 'Bearer')
-    this.$router.push('/threads')
-
-    // Save the data in a Cookie 🍪 for future navigations
-    Cookie.set('auth', response.data)
   },
 
   [AUTHENTICATE_USER](state, status) {
@@ -117,8 +105,6 @@ export const mutations = {
   [DISCONNECT_USER](state) {
     state.session.user = 'Anonymous'
     state.session.jwt = undefined
-
-    this.$axios.setHeader('Authorization', null)
   },
 
   [RESTORE_SESSION](state, session) {
