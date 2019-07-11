@@ -103,8 +103,10 @@ export const mutations = {
   },
 
   [DISCONNECT_USER](state) {
-    state.session.user = 'Anonymous'
-    state.session.jwt = undefined
+    state.session = {
+      user: 'Anonymous',
+      jwt: undefined
+    }
   },
 
   [RESTORE_SESSION](state, session) {
