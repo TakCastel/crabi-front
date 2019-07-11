@@ -1,6 +1,9 @@
 # Nuxt PWA application demo
 
-> This is a demo of a progressive web application consuming a Strapi API
+This is a demo of a progressive web application consuming a Strapi API. 
+
+If you want to see the result :
+[demo here](https://crabi.herokuapp.com/)
 
 ## Build Setup
 
