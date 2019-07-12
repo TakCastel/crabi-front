@@ -1,9 +1,20 @@
 import {
-  SET_THREADS
+  SET_THREADS,
+  SET_CURRENT_THREAD
 } from './mutation-types'
 
 export const state = () => ({
-  topics: []
+  topics: [
+    // list of all threads requested
+  ],
+  current: {
+    // current or last thread displayed
+    title: 'Sans titre',
+    body: 'Message introuvable',
+    user: {
+      username: 'Anonymous'
+    }
+  }
 })
 
 export const actions = {
@@ -21,6 +32,21 @@ export const actions = {
       })
       .then((response) => {
         commit('SET_THREADS', response)
+      })
+      .catch((error) => {
+        console.error('An error occurred:', error)
+      })
+  },
+
+  requestThreadById({ commit }, id) {
+    this.$axios
+      .get('/threads', {
+        params: {
+          _id: id
+        }
+      })
+      .then((response) => {
+        commit('SET_CURRENT_THREAD', response)
       })
       .catch((error) => {
         console.error('An error occurred:', error)
@@ -46,5 +72,9 @@ export const actions = {
 export const mutations = {
   [SET_THREADS](state, response) {
     state.topics = response.data
+  },
+
+  [SET_CURRENT_THREAD](state, response) {
+    state.current = response.data[0]
   }
 }
