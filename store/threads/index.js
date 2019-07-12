@@ -25,6 +25,21 @@ export const actions = {
       .catch((error) => {
         console.error('An error occurred:', error)
       })
+  },
+
+  /**
+   * Post a new thread in root threads models
+   * @param {*} param0
+   */
+  publishThread({ commit }, payload) {
+    this.$axios
+      .post('/threads', payload)
+      .then(() => {
+        this.$router.push('/threads')
+      })
+      .catch((error) => {
+        console.error('An error occurred:', error)
+      })
   }
 }
 
