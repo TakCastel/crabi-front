@@ -20,7 +20,7 @@
       <v-subheader inset>
         Derniers sujets
       </v-subheader>
-      <v-list-tile v-for="topic in topics" :key="topic.id" @click="handleClick">
+      <v-list-tile v-for="topic in topics" :key="topic.id" @click="handleClick(topic.id)">
         <v-list-tile-avatar>
           <v-icon class="accent">
             folder
@@ -53,8 +53,8 @@ export default {
       getThreads: 'threads/requestThreads'
     }),
 
-    handleClick() {
-      console.log('peeew')
+    handleClick(id) {
+      this.$router.push(`/threads/${id}`)
     },
 
     handleCreate() {
