@@ -58,7 +58,7 @@ export default {
     },
 
     handleCreate() {
-      console.log('poupi !')
+      this.$router.push('/publish')
     }
   }
 }
