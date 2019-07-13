@@ -1,7 +1,12 @@
 <template>
   <v-layout>
     <v-flex xs12>
-      <v-card>
+      <v-card v-if="loading">
+        <v-card-text class="text-xs-center">
+          <v-progress-circular indeterminate />
+        </v-card-text>
+      </v-card>
+      <v-card v-else>
         <v-card-title>
           <div>
             <h2>
@@ -12,27 +17,33 @@
             </span>
           </div>
         </v-card-title>
-        <v-card-text>
-          {{ current.body }}
-        </v-card-text>
+        <v-divider />
+        <v-card-text v-html="compiledMarkdown" />
       </v-card>
     </v-flex>
   </v-layout>
 </template>
 
 <script>
+import marked from 'marked'
 import { mapState, mapActions } from 'vuex'
 
 export default {
   computed: {
     ...mapState({
+      loading: state => state.threads.loading,
       current: state => state.threads.current
-    })
+    }),
+
+    compiledMarkdown: function () {
+      return marked(this.current.body)
+    }
   },
 
   beforeMount() {
-    console.log(this.$route.params.id)
-    this.getThread(this.$route.params.id)
+    if (this.$route.params.id !== this.current.id) {
+      this.getThread(this.$route.params.id)
+    }
   },
 
   methods: {

@@ -16,11 +16,19 @@
         </v-icon>
       </v-btn>
     </v-toolbar>
-    <v-list two-line subheader class="accent darken-3">
+    <v-list
+      class="accent darken-3"
+      two-line
+      subheader
+    >
       <v-subheader inset>
         Derniers sujets
       </v-subheader>
-      <v-list-tile v-for="topic in topics" :key="topic.id" @click="handleClick(topic.id)">
+      <v-list-tile
+        v-for="topic in topics"
+        :key="topic.id"
+        @click="handleReadThread(topic.id)"
+      >
         <v-list-tile-avatar>
           <v-icon class="accent">
             folder
@@ -45,16 +53,17 @@ export default {
   },
 
   beforeMount() {
-    this.getThreads()
+    this.getAllThreads()
   },
 
   methods: {
     ...mapActions({
-      getThreads: 'threads/requestThreads'
+      getAllThreads: 'threads/requestThreads',
+      getCurrentThread: 'threads/requestThreadById'
     }),
 
-    handleClick(id) {
-      this.$router.push(`/threads/${id}`)
+    handleReadThread(id) {
+      this.getCurrentThread(id)
     },
 
     handleCreate() {
