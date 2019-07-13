@@ -1,2 +1,3 @@
+export const SET_LOADER = 'SET_LOADER'
 export const SET_THREADS = 'SET_THREADS'
 export const SET_CURRENT_THREAD = 'SET_CURRENT_THREAD'
