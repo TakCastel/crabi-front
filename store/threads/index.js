@@ -1,9 +1,22 @@
 import {
-  SET_THREADS
+  SET_LOADER,
+  SET_THREADS,
+  SET_CURRENT_THREAD
 } from './mutation-types'
 
 export const state = () => ({
-  topics: []
+  loading: true,
+  topics: [
+    // list of all threads requested
+  ],
+  current: {
+    // current or last thread displayed
+    title: 'Sans titre',
+    body: 'Message introuvable',
+    user: {
+      username: 'Anonymous'
+    }
+  }
 })
 
 export const actions = {
@@ -16,11 +29,96 @@ export const actions = {
     this.$axios
       .get('/threads', {
         params: {
-          _sort: 'created_At:desc'
+          _sort: 'created_At:asc'
         }
       })
       .then((response) => {
         commit('SET_THREADS', response)
+        commit('SET_LOADER', false)
+      })
+      .catch((error) => {
+        console.error('An error occurred:', error)
+      })
+  },
+
+  /**
+   * Whenever the app needs to load a single thread
+   * @param {Number} thread id
+   */
+  requestThreadById({ commit }, id) {
+    this.$axios
+      .get('/threads', {
+        params: {
+          _id: id
+        }
+      })
+      .then((response) => {
+        commit('SET_CURRENT_THREAD', response)
+        commit('SET_LOADER', false)
+
+        // No need to redirect if the user is already in the page
+        if (this.$router.history.current.name !== 'thread-id') {
+          this.$router.push(`/threads/${id}`)
+        }
+      })
+      .catch((error) => {
+        console.error('An error occurred:', error)
+      })
+  },
+
+  /**
+   * Given a specific id, we should be able to delete a thread
+   * @param {*} param0
+   * @param {String} id
+   */
+  deleteThread({ commit }, id) {
+    this.$axios
+      .delete(`/threads/${id}`)
+      .then(() => {
+        this.$router.push(`/threads`)
+      })
+      .catch((error) => {
+        console.error('An error occurred:', error)
+      })
+  },
+
+  /**
+   * Post a new thread in root threads models
+   * @param {String} title
+   * @param {String} body
+   * @param {Object} user
+   */
+  publishThread({ rootState }, payload) {
+    this.$axios
+      .post('/threads', {
+        title: payload.title,
+        body: payload.body,
+        user: rootState.auth.session.user
+      })
+      .then(() => {
+        this.$router.push('/threads')
+      })
+      .catch((error) => {
+        console.error('An error occurred:', error)
+      })
+  },
+
+  /**
+   * Given a specific id, we should be able to edit a thread
+   * @param {*} param0
+   * @param {String} id
+   */
+  editThread({ rootState, dispatch }, payload) {
+    const id = rootState.threads.current._id
+    this.$axios
+      .put(`/threads/${id}`, {
+        title: payload.title,
+        body: payload.body,
+        user: rootState.auth.session.user,
+        editedAt: new Date()
+      })
+      .then(() => {
+        dispatch('requestThreadById', id)
       })
       .catch((error) => {
         console.error('An error occurred:', error)
@@ -29,7 +127,15 @@ export const actions = {
 }
 
 export const mutations = {
+  [SET_LOADER](state, status) {
+    state.loading = status
+  },
+
   [SET_THREADS](state, response) {
     state.topics = response.data
+  },
+
+  [SET_CURRENT_THREAD](state, response) {
+    state.current = response.data[0]
   }
 }

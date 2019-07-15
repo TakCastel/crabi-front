@@ -1,5 +1,5 @@
 <template>
-  <g-base-modal>
+  <c-base-modale v-model="showFormModale">
     <v-layout slot="header">
       <span class="title">
         {{ isRegistering ? 'Inscription' : 'Connexion' }}
@@ -77,20 +77,21 @@
         </v-btn>
       </v-flex>
     </v-layout>
-  </g-base-modal>
+  </c-base-modale>
 </template>
 
 <script>
 import { mapState, mapActions } from 'vuex'
 
-import GBaseModal from '@/components/GBaseModal'
+import CBaseModale from '@/components/molecules/CBaseModale'
 
 export default {
   components: {
-    GBaseModal
+    CBaseModale
   },
 
   data: () => ({
+    showFormModale: true,
     isRegistering: false,
     valid: true,
     identifier: '',

@@ -34,3 +34,9 @@ $ npm run generate
 
 - Access public content
 - Access private content
+
+### Forum
+
+- View threads list
+- Post new thread
+- Read thread
