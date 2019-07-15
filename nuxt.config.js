@@ -57,7 +57,7 @@ module.exports = {
   ** See https://axios.nuxtjs.org/options
   */
   axios: {
-    baseURL: 'http://51.75.141.70:1337/'
+    baseURL: 'https://strapi.lellex.fr/'
   },
 
   /*
