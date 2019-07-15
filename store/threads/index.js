@@ -29,7 +29,7 @@ export const actions = {
     this.$axios
       .get('/threads', {
         params: {
-          _sort: 'created_At:desc'
+          _sort: 'created_At:asc'
         }
       })
       .then((response) => {
@@ -67,13 +67,28 @@ export const actions = {
   },
 
   /**
+   * Given a specific id, we should be able to delete a thread
+   * @param {*} param0
+   * @param {String} id
+   */
+  deleteThread({ commit }, id) {
+    this.$axios
+      .delete(`/threads/${id}`)
+      .then(() => {
+        this.$router.push(`/threads`)
+      })
+      .catch((error) => {
+        console.error('An error occurred:', error)
+      })
+  },
+
+  /**
    * Post a new thread in root threads models
    * @param {String} title
    * @param {String} body
    * @param {Object} user
    */
   publishThread({ rootState }, payload) {
-    console.log(rootState.auth.session.user)
     this.$axios
       .post('/threads', {
         title: payload.title,
@@ -82,6 +97,28 @@ export const actions = {
       })
       .then(() => {
         this.$router.push('/threads')
+      })
+      .catch((error) => {
+        console.error('An error occurred:', error)
+      })
+  },
+
+  /**
+   * Given a specific id, we should be able to edit a thread
+   * @param {*} param0
+   * @param {String} id
+   */
+  editThread({ rootState, dispatch }, payload) {
+    const id = rootState.threads.current._id
+    this.$axios
+      .put(`/threads/${id}`, {
+        title: payload.title,
+        body: payload.body,
+        user: rootState.auth.session.user,
+        editedAt: new Date()
+      })
+      .then(() => {
+        dispatch('requestThreadById', id)
       })
       .catch((error) => {
         console.error('An error occurred:', error)
