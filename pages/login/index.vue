@@ -1,9 +1,9 @@
 <template>
-  <g-auth-form />
+  <c-form-auth />
 </template>
 
 <script>
-import GAuthForm from '@/components/GAuthForm'
+import CFormAuth from '@/components/molecules/CFormAuth'
 
 export default {
   middleware: [
@@ -11,7 +11,7 @@ export default {
   ],
 
   components: {
-    GAuthForm
+    CFormAuth
   }
 }
 </script>
