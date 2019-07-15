@@ -1,13 +1,13 @@
 <template>
-  <g-threads-post />
+  <c-form-message />
 </template>
 
 <script>
-import GThreadsPost from '@/components/GThreadsPost'
+import CFormMessage from '@/components/molecules/CFormMessage'
 
 export default {
   components: {
-    GThreadsPost
+    CFormMessage
   }
 }
 </script>
