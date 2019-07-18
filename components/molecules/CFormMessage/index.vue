@@ -12,7 +12,7 @@
       label="Message"
       :placeholder="variant !== 'answer' ? 'Ecrivez votre message' : 'Ecrivez votre réponse'"
       :counter="10000"
-      rows="17"
+      rows="12"
       outline
     />
     <v-layout>
