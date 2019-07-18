@@ -98,7 +98,7 @@
       </v-menu>
     </v-toolbar>
     <v-content>
-      <v-container>
+      <v-container grid-list-xl>
         <nuxt />
       </v-container>
     </v-content>

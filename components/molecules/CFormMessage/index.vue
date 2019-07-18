@@ -37,7 +37,7 @@ export default {
     variant: {
       type: String,
       default: 'post', // post, edition, answer
-      required: true
+      required: false
     },
     value: {
       type: Object,
@@ -45,7 +45,7 @@ export default {
         title: '',
         message: ''
       }),
-      required: true
+      required: false
     }
   },
 
