@@ -93,7 +93,7 @@ export const actions = {
       .post('/threads', {
         title: payload.title,
         body: payload.body,
-        user: rootState.auth.session.user
+        owner: rootState.auth.session.user._id
       })
       .then(() => {
         this.$router.push('/threads')
@@ -114,7 +114,7 @@ export const actions = {
       .put(`/threads/${id}`, {
         title: payload.title,
         body: payload.body,
-        user: rootState.auth.session.user,
+        editedBy: rootState.auth.session.user.username,
         editedAt: new Date()
       })
       .then(() => {
