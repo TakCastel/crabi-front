@@ -76,7 +76,7 @@ export const actions = {
     this.$axios
       .delete(`/${payload.endpoint}/${payload.id}`)
       .then(() => {
-        if (payload.endpoints === 'threads') {
+        if (payload.endpoint === 'threads') {
           // If we delete the entiere thread, go back to main threads view
           this.$router.push(`/threads`)
         } else {
