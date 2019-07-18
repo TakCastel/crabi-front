@@ -6,7 +6,7 @@
           <v-progress-circular indeterminate />
         </v-card-text>
       </v-card>
-      <c-base-message v-else :content="current" variant="post" />
+      <c-base-message v-else :content="current" variant="threads" />
     </v-flex>
     <v-flex v-if="answers" xs12>
       <c-answers-list />
