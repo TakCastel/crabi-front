@@ -43,6 +43,13 @@ export default {
       type: String,
       default: undefined,
       required: true
+    },
+
+    // What endpoint this button shall target ?
+    endpoint: {
+      type: String,
+      default: 'threads', // threads or answers
+      required: true
     }
   },
 
@@ -52,11 +59,15 @@ export default {
 
   methods: {
     ...mapActions({
-      deleteThread: 'threads/deleteThread'
+      deleteMessage: 'threads/deleteMessage'
     }),
 
     handleConfirm() {
-      this.deleteThread(this.id)
+      const deletePayload = {
+        id: this.id,
+        endpoint: this.endpoint
+      }
+      this.deleteMessage(deletePayload)
       this.showAlertModale = false
     }
   }
