@@ -67,15 +67,22 @@ export const actions = {
   },
 
   /**
-   * Given a specific id, we should be able to delete a thread
-   * @param {*} param0
+   * Given a specific id and api path,
+   * we should be able to delete a content
    * @param {String} id
+   * @param {String} endpoint threads or answers
    */
-  deleteThread({ commit }, id) {
+  deleteMessage({ rootState, dispatch }, payload) {
     this.$axios
-      .delete(`/threads/${id}`)
+      .delete(`/${payload.endpoint}/${payload.id}`)
       .then(() => {
-        this.$router.push(`/threads`)
+        if (payload.endpoints === 'threads') {
+          // If we delete the entiere thread, go back to main threads view
+          this.$router.push(`/threads`)
+        } else {
+          // Else update the current content to display correct answers
+          dispatch('requestThreadById', rootState.threads.current._id)
+        }
       })
       .catch((error) => {
         console.error('An error occurred:', error)
@@ -93,10 +100,29 @@ export const actions = {
       .post('/threads', {
         title: payload.title,
         body: payload.body,
-        owner: rootState.auth.session.user._id
+        author: rootState.auth.session.user.username,
+        user: rootState.auth.session.user._id
       })
       .then(() => {
         this.$router.push('/threads')
+      })
+      .catch((error) => {
+        console.error('An error occurred:', error)
+      })
+  },
+
+  publishAnswer({ rootState, dispatch }, payload) {
+    const id = rootState.threads.current._id
+    this.$axios
+      .post('/answers', {
+        body: payload.body,
+        author: rootState.auth.session.user.username,
+        user: rootState.auth.session.user._id,
+        topic: id
+      })
+      .then(() => {
+        // update current content to display answer added
+        dispatch('requestThreadById', id)
       })
       .catch((error) => {
         console.error('An error occurred:', error)
