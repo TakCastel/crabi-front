@@ -1,7 +1,7 @@
 <template>
   <v-layout column>
     <v-flex v-for="answer in answers" :key="answer._id">
-      <c-base-message :content="answer" variant="answer" />
+      <c-base-message :content="answer" variant="answers" />
     </v-flex>
   </v-layout>
 </template>

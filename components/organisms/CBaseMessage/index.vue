@@ -5,8 +5,8 @@
         <h2>
           {{ content.title }}
         </h2>
-        <span v-if="content.owner" class="accent--text">
-          Publié par {{ content.owner.username }} le {{ dateToString(content.createdAt) }}
+        <span class="accent--text">
+          Publié par {{ content.author }} le {{ dateToString(content.createdAt) }}
         </span>
       </div>
     </v-card-title>
@@ -17,7 +17,7 @@
       <span v-if="content.editedAt" class="caption accent--text">Dernière édition le {{ dateToString(content.editedAt) }} par {{ content.editedBy }}</span>
       <v-spacer />
       <c-button-edit class="mr-2" />
-      <c-button-delete :id="content._id" />
+      <c-button-delete :id="content._id" :endpoint="variant" />
     </v-card-actions>
   </v-card>
 </template>
@@ -39,6 +39,11 @@ export default {
     content: {
       type: Object,
       default: () => ({ }),
+      required: true
+    },
+    variant: {
+      type: String,
+      default: 'threads', // threads or answers
       required: true
     }
   },

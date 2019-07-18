@@ -1,6 +1,7 @@
 <template>
   <v-form>
     <v-text-field
+      v-if="variant !== 'answer'"
       v-model="value.title"
       label="Titre du sujet"
       placeholder="De quoi allez-vous parler ?"
@@ -9,7 +10,7 @@
     <v-textarea
       v-model="value.message"
       label="Message"
-      placeholder="Ecrivez-votre message"
+      :placeholder="variant !== 'answer' ? 'Ecrivez votre message' : 'Ecrivez votre réponse'"
       :counter="10000"
       rows="17"
       outline
@@ -23,7 +24,7 @@
         large
         @click="handleSubmit"
       >
-        {{ variant === 'post' ? 'Poster' : 'Editer' }}
+        {{ variant === 'edit' ? 'Editer' : 'Poster' }}
       </v-btn>
     </v-layout>
   </v-form>
@@ -36,7 +37,7 @@ export default {
   props: {
     variant: {
       type: String,
-      default: 'post', // post, edition, answer
+      default: 'post', // post, edit, answer
       required: false
     },
     value: {
@@ -74,20 +75,33 @@ export default {
 
   methods: {
     ...mapActions({
-      publishThread: 'threads/publishThread',
-      editThread: 'threads/editThread'
+      post: 'threads/publishThread',
+      edit: 'threads/editThread',
+      answer: 'threads/publishAnswer'
     }),
 
+    /**
+   * On submission, this form can be used as
+   * post new topic, answer current thread
+   * or edit current thread
+   */
     handleSubmit() {
-      const payload = {
+      const threadPayload = {
         title: this.value.title,
         body: this.value.message
       }
 
+      const answerPayload = {
+        body: this.value.message
+      }
+
       if (this.variant === 'post') {
-        this.publishThread(payload)
+        this.post(threadPayload)
+      } else if (this.variant === 'edit') {
+        this.edit(threadPayload)
+        this.$emit('submission')
       } else {
-        this.editThread(payload)
+        this.answer(answerPayload)
         this.$emit('submission')
       }
     }

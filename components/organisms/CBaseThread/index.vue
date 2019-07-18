@@ -41,7 +41,7 @@ export default {
     ...mapState({
       loading: state => state.threads.loading,
       current: state => state.threads.current,
-      answers: state => state.threads.answers
+      answers: state => state.threads.current.answers
     })
   },
 

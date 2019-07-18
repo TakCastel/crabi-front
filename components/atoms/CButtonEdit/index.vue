@@ -14,7 +14,7 @@
           <v-toolbar-title>Edition</v-toolbar-title>
         </v-toolbar>
         <v-card-text>
-          <c-form-message variant="edition" :value="defaultValue" @submission="dialog=false" />
+          <c-form-message variant="edit" :value="defaultValue" @submission="dialog=false" />
         </v-card-text>
       </v-card>
     </v-dialog>
