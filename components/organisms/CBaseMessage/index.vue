@@ -16,7 +16,7 @@
     <v-card-actions>
       <span v-if="content.editedAt" class="caption accent--text">Dernière édition le {{ dateToString(content.editedAt) }} par {{ content.editedBy }}</span>
       <v-spacer />
-      <c-button-edit class="mr-2" />
+      <c-button-edit class="mr-2" :endpoint="variant" />
       <c-button-delete :id="content._id" :endpoint="variant" />
     </v-card-actions>
   </v-card>

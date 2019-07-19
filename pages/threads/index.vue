@@ -6,21 +6,21 @@
         <p>Ces threads sont privés</p>
       </section>
       <section class="body">
-        <g-threads-list />
+        <c-list-threads />
       </section>
     </v-flex>
   </v-layout>
 </template>
 
 <script>
-import GThreadsList from '@/components/GThreadsList'
+import CListThreads from '@/components/organisms/CListThreads'
 
 export default {
   middleware: [
     'protected'
   ],
   components: {
-    GThreadsList
+    CListThreads
   }
 }
 </script>
