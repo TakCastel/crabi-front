@@ -23,7 +23,7 @@
                   align-center
                   justify-center
                 >
-                  <g-field-file />
+                  <c-upload-file />
                 </v-layout>
               </v-img>
             </v-hover>
@@ -55,11 +55,11 @@
 </template>
 
 <script>
-import GFieldFile from '@/components/GFieldFile'
+import CUploadFile from '@/components/atoms/CUploadFile'
 
 export default {
   components: {
-    GFieldFile
+    CUploadFile
   }
 }
 </script>

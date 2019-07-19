@@ -1,20 +1,18 @@
 <template>
   <div>
-    <v-btn small icon class="primary" outline @click="dialog=true">
-      <v-icon small color="primary">
-        edit
-      </v-icon>
+    <v-btn color="primary" @click="dialog=true">
+      Répondre
     </v-btn>
-    <v-dialog v-model="dialog">
+    <v-dialog v-model="dialog" :fullscreen="$vuetify.breakpoint.xsOnly" max-width="800">
       <v-card>
         <v-toolbar color="primary">
           <v-btn icon dark @click="dialog = false">
             <v-icon>close</v-icon>
           </v-btn>
-          <v-toolbar-title>Edition</v-toolbar-title>
+          <v-toolbar-title>Réponse</v-toolbar-title>
         </v-toolbar>
         <v-card-text>
-          <c-form-message variant="edit" :value="defaultValue" @submission="dialog=false" />
+          <c-form-message variant="answer" @submission="dialog=false" />
         </v-card-text>
       </v-card>
     </v-dialog>

@@ -1,55 +1,48 @@
 <template>
-  <v-card v-if="loading">
-    <v-card-text class="text-xs-center">
-      <v-progress-circular indeterminate />
-    </v-card-text>
-  </v-card>
-  <v-card v-else>
-    <v-card-title>
-      <div>
-        <h2>
-          {{ current.title }}
-        </h2>
-        <span class="accent--text">
-          Publié par {{ current.user.username }} le {{ dateToString(current.createdAt) }}
-        </span>
-      </div>
-    </v-card-title>
-    <v-divider />
-    <v-card-text v-html="compiledMarkdown" />
-    <v-divider />
-    <v-card-actions>
-      <span v-if="current.editedAt">Dernière édition le {{ dateToString(current.editedAt) }}</span>
-      <v-spacer />
-      <c-button-edit class="mr-2" />
-      <c-button-delete :id="current._id" />
-    </v-card-actions>
-  </v-card>
+  <v-layout column>
+    <v-flex xs12>
+      <v-card v-if="loading">
+        <v-card-text class="text-xs-center">
+          <v-progress-circular indeterminate />
+        </v-card-text>
+      </v-card>
+      <c-base-message v-else :content="current" variant="threads" />
+    </v-flex>
+    <v-flex v-if="answers" xs12>
+      <c-answers-list />
+    </v-flex>
+    <v-flex xs12>
+      <v-layout py-3>
+        <v-spacer />
+        <c-button-thread variant="block" />
+        <c-button-answer />
+      </v-layout>
+    </v-flex>
+  </v-layout>
 </template>
 
 <script>
-import marked from 'marked'
-import moment from 'moment'
 import { mapState, mapActions } from 'vuex'
 
-import CButtonEdit from '@/components/atoms/CButtonEdit'
-import CButtonDelete from '@/components/atoms/CButtonDelete'
+import CButtonAnswer from '@/components/atoms/CButtonAnswer'
+import CButtonThread from '@/components/atoms/CButtonThread'
+import CAnswersList from '@/components/molecules/CAnswersList'
+import CBaseMessage from '@/components/organisms/CBaseMessage'
 
 export default {
   components: {
-    CButtonEdit,
-    CButtonDelete
+    CButtonAnswer,
+    CButtonThread,
+    CAnswersList,
+    CBaseMessage
   },
 
   computed: {
     ...mapState({
       loading: state => state.threads.loading,
-      current: state => state.threads.current
-    }),
-
-    compiledMarkdown: function () {
-      return marked(this.current.body)
-    }
+      current: state => state.threads.current,
+      answers: state => state.threads.current.answers
+    })
   },
 
   beforeMount() {
@@ -61,12 +54,7 @@ export default {
   methods: {
     ...mapActions({
       getThread: 'threads/requestThreadById'
-    }),
-
-    dateToString(date) {
-      const formatedDate = moment(date)
-      return formatedDate.locale('fr').format('D MMMM YYYY')
-    }
+    })
   }
 }
 </script>

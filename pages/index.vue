@@ -6,18 +6,18 @@
         <p>L'actualité du site</p>
       </section>
       <section class="body">
-        <g-news-list />
+        <c-list-news />
       </section>
     </v-flex>
   </v-layout>
 </template>
 
 <script>
-import GNewsList from '@/components/GNewsList'
+import CListNews from '@/components/organisms/CListNews'
 
 export default {
   components: {
-    GNewsList
+    CListNews
   }
 }
 </script>

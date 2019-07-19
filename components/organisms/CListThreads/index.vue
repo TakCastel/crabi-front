@@ -3,18 +3,7 @@
     <v-toolbar color="accent darken-4">
       <v-toolbar-title>Discussions</v-toolbar-title>
       <v-spacer />
-      <v-btn
-        color="primary"
-        absolute
-        bottom
-        right
-        icon
-        @click="handleCreate"
-      >
-        <v-icon>
-          add
-        </v-icon>
-      </v-btn>
+      <c-button-thread />
     </v-toolbar>
     <v-list
       class="accent darken-3"
@@ -45,7 +34,13 @@
 <script>
 import { mapState, mapActions } from 'vuex'
 
+import CButtonThread from '@/components/atoms/CButtonThread'
+
 export default {
+  components: {
+    CButtonThread
+
+  },
   computed: {
     ...mapState({
       topics: state => state.threads.topics
@@ -64,10 +59,6 @@ export default {
 
     handleReadThread(id) {
       this.getCurrentThread(id)
-    },
-
-    handleCreate() {
-      this.$router.push('/publish')
     }
   }
 }
