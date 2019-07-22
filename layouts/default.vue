@@ -102,11 +102,11 @@
         <nuxt />
       </v-container>
     </v-content>
-    <v-footer app class="px-2">
+    <!-- <v-footer app class="px-2">
       <span>TakCastel &copy; 2019</span>
       <v-spacer />
       <span> v{{ applicationVersion }} </span>
-    </v-footer>
+    </v-footer> -->
   </v-app>
 </template>
 
@@ -134,7 +134,8 @@ export default {
     drawer: null,
     navs: [
       { title: 'Accueil', icon: 'home', route: '/' },
-      { title: 'Discussions', icon: 'question_answer', route: '/threads' }
+      { title: 'Forum', icon: 'forum', route: '/threads' },
+      { title: 'Chatroom', icon: 'chat', route: '/chatroom' }
     ]
   }),
 
