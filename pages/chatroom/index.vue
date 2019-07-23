@@ -1,6 +1,6 @@
 <template>
   <v-layout column justify-center align-stretch>
-    <v-flex class="chatroom chatroom-messages mb-5">
+    <v-flex ref="chatroom" class="chatroom chatroom-messages mb-5">
       <div v-for="message in messages" :key="message.id" class="py-1 mb-2" flat transparent>
         <span class="subheading font-weight-bold">
           {{ message.author }}
@@ -23,6 +23,9 @@
             outline
             @click:append-outer="handlePost"
           />
+          <v-btn color="primary" @click="ping">
+            ping
+          </v-btn>
         </v-layout>
       </v-form>
     </v-flex>
@@ -37,14 +40,28 @@ export default {
     text: ''
   }),
 
+  sockets: {
+    connect() {
+      console.log('socket connected')
+    },
+    customEmit(val) {
+      console.log('this method was fired by the socket server. eg: io.emit("customEmit", data)')
+    }
+  },
+
   computed: {
     ...mapState({
-      messages: state => state.chatroom.messages
+      messages: state => state.chatroom.messages,
+      username: state => state.auth.session.user.username
     })
   },
 
-  beforeMount() {
+  mounted() {
     this.getMessages()
+  },
+
+  updated() {
+    this.$refs.chatroom.scrollTop = this.$refs.chatroom.scrollHeight
   },
 
   methods: {
@@ -52,6 +69,11 @@ export default {
       getMessages: 'chatroom/requestChatroomMessages',
       postMessage: 'chatroom/postMessage'
     }),
+
+    ping() {
+      console.log('socket emit event')
+      this.$socket.emit('emit_method', this.text)
+    },
 
     handlePost() {
       if (this.$refs.form.validate()) {
