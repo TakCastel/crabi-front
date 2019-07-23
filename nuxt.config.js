@@ -38,7 +38,12 @@ module.exports = {
   ** Plugins to load before mounting the App
   */
   plugins: [
-    '@/plugins/axios'
+    '@/plugins/axios',
+    // Doc : https://www.npmjs.com/package/vue-socket.io-extended
+    {
+      src: '~/plugins/socket.io.js',
+      ssr: false // <-- this line is required
+    }
   ],
 
   /*
