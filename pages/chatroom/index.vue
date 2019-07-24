@@ -37,15 +37,19 @@ import { mapState, mapActions } from 'vuex'
 
 export default {
   data: () => ({
-    text: ''
+    text: '',
+    tweets: []
   }),
 
   sockets: {
     connect() {
-      console.log('socket connected')
+      console.log('[WS] Connected')
     },
-    customEmit(val) {
-      console.log('this method was fired by the socket server. eg: io.emit("customEmit", data)')
+    tweet(tweet) {
+      this.tweets.unshift(tweet)
+      if (this.tweets.length > 100) {
+        this.tweets.splice(-1, 1)
+      }
     }
   },
 
@@ -72,7 +76,6 @@ export default {
 
     ping() {
       console.log('socket emit event')
-      this.$socket.emit('emit_method', this.text)
     },
 
     handlePost() {
